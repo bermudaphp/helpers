@@ -36,6 +36,22 @@ function is_assoc(array $array) : bool {
  * @param $var
  * @return bool
  */
+function is_oct($var) : bool {
+    return decoct(octdec($var)) == $var;
+}
+
+/**
+ * @param $var
+ * @return bool
+ */
+function is_hex($var) : bool {
+    return ctype_xdigit($var);
+}
+
+/**
+ * @param $var
+ * @return bool
+ */
 function is_accessible($var) : bool {
     return is_array($var) || $var instanceof \ArrayAccess;
 }
