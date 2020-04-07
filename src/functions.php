@@ -246,7 +246,7 @@ function contains(string $haystack, string $needle) : bool {
  * @return bool
  */
 function is_dot(string $string) : bool {
-    return containts($string, '.');
+    return contains($string, '.');
 }
 
 /**
