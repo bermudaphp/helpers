@@ -1,16 +1,17 @@
 <?php
 
 
-namespace Lobster;
+namespace Bermuda;
 
 
 /**
  * @param array $arguments
  * @return array
  */
-function arguments(array $arguments) : array {
-
-    if(array_key_exists(0, $arguments) && is_array($arguments[0])){
+function arguments(array $arguments): array 
+{
+    if(array_key_exists(0, $arguments) && is_array($arguments[0]))
+    {
         return $arguments[0];
     }
 
@@ -22,9 +23,12 @@ function arguments(array $arguments) : array {
  * @param array $array
  * @return bool
  */
-function is_assoc(array $array) : bool {
-    foreach ($array as $offset => $value){
-        if(is_string($offset)){
+function is_assoc(array $array): bool 
+{
+    foreach ($array as $offset => $value)
+    {
+        if(is_string($offset))
+        {
             return true;
         }
     }
@@ -36,7 +40,8 @@ function is_assoc(array $array) : bool {
  * @param $var
  * @return bool
  */
-function is_oct($var) : bool {
+function is_oct($var): bool 
+{
     return decoct(octdec($var)) == $var;
 }
 
@@ -44,7 +49,8 @@ function is_oct($var) : bool {
  * @param $var
  * @return bool
  */
-function is_hex($var) : bool {
+function is_hex($var): bool 
+{
     return ctype_xdigit($var);
 }
 
@@ -52,7 +58,8 @@ function is_hex($var) : bool {
  * @param $var
  * @return bool
  */
-function is_accessible($var) : bool {
+function is_accessible($var): bool 
+{
     return is_array($var) || $var instanceof \ArrayAccess;
 }
 
@@ -61,10 +68,9 @@ function is_accessible($var) : bool {
  * @param $offset
  * @return mixed|null
  */
-function array_pull(array &$array, $offset){
-    
+function array_pull(array &$array, $offset)
+{    
     $v = array_get($array, $offset);
-
     array_remove($array, $offset);
 
     return $v;
@@ -77,23 +83,22 @@ function array_pull(array &$array, $offset){
  * @param null $default
  * @return mixed|null
  */
-function array_get(array $array, $offset, $default = null){
-    
-    if(is_string($offset) && is_dot($offset)){
-
+function array_get(array $array, $offset, $default = null)
+{    
+    if(is_string($offset) && is_dot($offset))
+    {
         $segments = dot_explode($offset);
-
         $offset = array_pop($segments);
 
-        foreach ($segments as $segment){
-            
-            if(array_key_exists($segment, $array) && is_array($array[$segment])){
+        foreach ($segments as $segment)
+        {    
+            if(array_key_exists($segment, $array) && is_array($array[$segment]))
+            {
                 $array = $array[$segment];
+                continue;
             } 
             
-            else {
-                return $default;
-            }
+            return $default;
         }
     }
 
@@ -105,20 +110,21 @@ function array_get(array $array, $offset, $default = null){
  * @param $offset
  * @param $value
  */
-function array_set(array &$array, $offset, $value) : void {
-
-    if($offset === null){
+function array_set(array &$array, $offset, $value): void 
+{
+    if($offset === null)
+    {
         $array[] = $value;
         return;
     }
 
-    if(is_string($offset) && is_dot($offset)){
-
+    if(is_string($offset) && is_dot($offset))
+    {
         $segments = dot_explode($offset);
-
         $offset = array_pop($segments);
 
-        foreach ($segments as $segment){
+        foreach ($segments as $segment)
+        {
             $array[$segment] = [];
             $array =& $array[$segment];
         }
@@ -130,23 +136,27 @@ function array_set(array &$array, $offset, $value) : void {
 /**
  * @param array $array
  * @param array|string|int $offset
- * @param string|int ...$offsets
+ * @param string|int ... $offsets
  * @return array
  */
-function array_only(array $array, $offset, ...$offsets) : array {
-
-    if(is_array($offset)){
+function array_only(array $array, $offset, ... $offsets): array 
+{
+    if(is_array($offset))
+    {
         $offsets = $offset;
     } 
     
-    else {
+    else 
+    {
         array_unshift($offsets, $offset);
     }
 
     $values = [];
 
-    foreach ($offsets as $offset){
-        if(array_has($array, $offset)){
+    foreach ($offsets as $offset)
+    {
+        if(array_has($array, $offset))
+        {
             $values[$offset] = array_get($array, $offset);
         }
     }
@@ -157,20 +167,23 @@ function array_only(array $array, $offset, ...$offsets) : array {
 /**
  * @param array $array
  * @param array|string|int $offset
- * @param string|int ...$offsets
+ * @param string|int ... $offsets
  * @return array
  */
-function array_except(array $array, $offset, ...$offsets) : array {
-
-    if(is_array($offset)){
+function array_except(array $array, $offset, ... $offsets): array 
+{
+    if(is_array($offset))
+    {
         $offsets = $offset;
     } 
     
-    else {
+    else
+    {
         array_unshift($offsets, $offset);
     }
 
-    foreach ($offsets as $offset){
+    foreach ($offsets as $offset)
+    {
         array_remove($array, $offset);
     }
 
@@ -182,23 +195,21 @@ function array_except(array $array, $offset, ...$offsets) : array {
  * @param $offset
  * @return bool
  */
-function array_has(array $array, $offset) : bool {
-
-    if(is_string($offset) && is_dot($offset)){
-
+function array_has(array $array, $offset): bool 
+{
+    if(is_string($offset) && is_dot($offset))
+    {
         $segments = dot_explode($offset);
-
         $offset = array_pop($segments);
 
-        foreach ($segments as $segment){
-            
+        foreach ($segments as $segment)
+        {
             if(array_key_exists($segment, $array) && is_array($array[$segment])){
                 $array = $array[$segment];
+                continue;
             } 
             
-            else {
-                return false;
-            }
+            return false;
         }
     }
 
@@ -209,23 +220,21 @@ function array_has(array $array, $offset) : bool {
  * @param array $array
  * @param $offset
  */
-function array_remove(array &$array, $offset) : void {
-
-    if(is_string($offset) && is_dot($offset)){
-
+function array_remove(array &$array, $offset): void 
+{
+    if(is_string($offset) && is_dot($offset))
+    {
         $segments = dot_explode($offset);
-
         $offset = array_pop($segments);
 
-        foreach ($segments as $segment){
-            
+        foreach ($segments as $segment)
+        {    
             if(array_key_exists($segment, $array) && is_array($array[$segment])){
                 $array =& $array[$segment];
-            } 
-            
-            else {
-                return;
+                continue;
             }
+            
+            return;
         }
     }
 
@@ -237,7 +246,8 @@ function array_remove(array &$array, $offset) : void {
  * @param string $needle
  * @return bool
  */
-function contains(string $haystack, string $needle) : bool {
+function contains(string $haystack, string $needle): bool
+{
     return mb_strpos($haystack, $needle) !== false;
 }
 
@@ -245,7 +255,8 @@ function contains(string $haystack, string $needle) : bool {
  * @param string $string
  * @return bool
  */
-function is_dot(string $string) : bool {
+function is_dot(string $string): bool 
+{
     return contains($string, '.');
 }
 
@@ -253,6 +264,7 @@ function is_dot(string $string) : bool {
  * @param string $string
  * @return array
  */
-function dot_explode(string $string) : array {
+function dot_explode(string $string): array 
+{
     return explode('.', $string);
 }
