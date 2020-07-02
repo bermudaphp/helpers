@@ -1,4 +1,4 @@
 # Install
 ```bash
-composer require lobster-php/helpers
+composer require bermudaphp/helpers
 ```
