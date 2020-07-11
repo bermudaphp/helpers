@@ -242,16 +242,6 @@ function array_remove(array &$array, $offset): void
 }
 
 /**
- * @param string $haystack
- * @param string $needle
- * @return bool
- */
-function contains(string $haystack, string $needle): bool
-{
-    return mb_strpos($haystack, $needle) !== false;
-}
-
-/**
  * @param string $string
  * @return bool
  */
