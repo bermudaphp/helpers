@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Bermuda;
-
 
 /**
  * @param array $arguments
@@ -155,7 +153,7 @@ function array_only(array $array, $offset, ... $offsets): array
 
     foreach ($offsets as $offset)
     {
-        if(array_has($array, $offset))
+        if (array_has($array, $offset))
         {
             $values[$offset] = array_get($array, $offset);
         }
